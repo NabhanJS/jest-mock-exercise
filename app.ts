@@ -12,8 +12,37 @@ const makeApp = ({ getExerciseById, getAllExercises, createExercise }: any) => {
 
 
   app.post("/exercise", async (req, res) => {
-    const exercise = await createExercise(req.body);
-    res.json(exercise);
+
+    const errors = [];
+
+        if (!req.body.startTime || req.body.startTime.length === 0) {
+            errors.push({
+                "error": "You must provide a start time"
+            })
+        }
+
+        if (!req.body.durationInSeconds || isNaN(Number(req.body.durationInSeconds))) {
+            errors.push({
+                "error": "You must provide a correct duration in seconds, it should be a number"
+            })
+        }
+
+        if (!req.body.activityType || req.body.activityType.length === 0) {
+            errors.push({
+                "error": "You must provide an activity type"
+            })
+        }
+
+        if (errors.length) {
+            res.status(400).json(errors);
+        } else {
+            const exercise = await createExercise(req.body);
+            res.json(exercise);
+        }
+            
+
+        // const exercise = await createExercise(req.body);
+        // res.json(exercise);
   });
 
   app.get("/exercise", async (req, res) => {
@@ -23,6 +52,8 @@ const makeApp = ({ getExerciseById, getAllExercises, createExercise }: any) => {
 
   app.get("/exercise/:id", async (req, res) => {
     const exercise = await getExerciseById(req.params.id);
+
+    
 
     if (!exercise) {
       res.status(404).send();
