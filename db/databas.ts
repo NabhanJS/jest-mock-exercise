@@ -1,13 +1,13 @@
 import mongoose from 'mongoose';
 
 type IExercise = {
-    startTime: Date,
+    startTime: String,
     durationInSeconds: Number,
     activityType: "running" | "walking" | "biking"
 }
 
 const exerciseSchema = new mongoose.Schema<IExercise>({
-    startTime: Date,
+    startTime: String,
     durationInSeconds: Number,
     activityType: String
 });
