@@ -17,7 +17,8 @@ const makeApp = ({ getExerciseById, getAllExercises, createExercise }: any) => {
   });
 
   app.get("/exercise", async (req, res) => {
-    res.json(await getAllExercises);
+    const allExercises = await getAllExercises()
+    res.json(allExercises);
   });
 
   app.get("/exercise/:id", async (req, res) => {
